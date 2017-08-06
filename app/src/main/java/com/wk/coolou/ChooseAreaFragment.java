@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,7 +189,7 @@ public class ChooseAreaFragment extends Fragment {
             int provinceCode=selectedProvince.getProvinceCode();
             int cityCode=selectedCity.getCityCode();
             String address = "http://guolin.tech/api/china/"+provinceCode+"/"+cityCode;
-            queryFromServer(address, "city");
+            queryFromServer(address, "county");
         }
     }
 
@@ -212,10 +213,13 @@ public class ChooseAreaFragment extends Fragment {
                 String responseText=response.body().string();
                 boolean result=false;
                 if ("province".equals(type)){
+                    Log.d(TAG, "type: "+type);
                     result= Utility.handleProvinceResponse(responseText);
                 }else if ("city".equals(type)){
+                    Log.d(TAG, "type: "+type);
                     result=Utility.handleCityResponse(responseText,selectedProvince.getId());
                 }else if ("county".equals(type)){
+                    Log.d(TAG, "type: "+type);
                     result=Utility.handleCountyResponse(responseText,selectedCity.getId());
                 }
                 if (result){
